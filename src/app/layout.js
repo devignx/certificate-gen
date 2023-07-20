@@ -1,7 +1,7 @@
 import './globals.css'
-import { Manrope } from 'next/font/google'
+import {  Geologica, Man, Outfitrope } from 'next/font/google'
 
-const manrope = Manrope({ subsets: ['latin'] })
+const barlow = Geologica({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Certificate generator ',
@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={manrope.className}>{children}</body>
+      <body className={barlow.className}>{children}</body>
     </html>
   )
 }

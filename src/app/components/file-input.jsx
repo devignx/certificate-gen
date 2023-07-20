@@ -8,6 +8,7 @@ const FileInput = () => {
 const [dragging, setDragging] = useState(false);
 const [fileDrop, setFileDrop] = useState(false);
 const [fileName, setFileName] = useState('');
+const [fileContent, setFileContent] = useState('');
 
 const fileInputRef = useRef(null);
 const [mediaPopup, setMediaPopup] = useState();
@@ -22,7 +23,21 @@ const handleFileSelected = (e) => {
     console.log(file.name)
     setFileName(file.name)
     setFileDrop(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      setFileContent(content);
     };
+
+    if (file) {
+        if (file.type === 'application/json' || file.type === 'text/csv' || file.type === 'application/xlsx') {
+            reader.readAsText(file);
+        } 
+        else {
+            alert('Please select a JSON file.');
+        }
+    }
+}
 
 useEffect(() => {
     const handleDragEnter = (e) => {
@@ -93,6 +108,12 @@ return (
         }
         <p>{fileDrop ? fileName : 'Add Data'}</p>
     </button>
+    {
+        fileDrop &&
+        <div>
+            <textarea value={fileContent} readOnly className='p-4 md:p-8 text-black/50 min-h-[10rem] max-h-[15rem] max-w-[50rem] w-11/12 mx-auto block mt-8 break-words bg-white rounded-xl outline-none' />
+        </div>
+    }
 
     </>
 );
